@@ -15,6 +15,13 @@ All features are individually toggleable in `config.asm`.
 
 1. **Download asar** from [github.com/RPGHacker/asar/releases](https://github.com/RPGHacker/asar/releases) and place `asar.exe` in the `tools/` folder
 2. **Supply your own ROM** — place a clean Super Ghouls 'n Ghosts (USA) `.sfc` ROM at `rom/clean.sfc`
+
+   Verified ROM (No-Intro):
+   ```
+   Name:   Super Ghouls 'N Ghosts (USA)
+   SHA-1:  F12280B13EEA88CA03D700B75CF3C13A0E13F3BC
+   CRC32:  6AABA901
+   ```
 3. **Run the build script:**
    ```
    build.bat

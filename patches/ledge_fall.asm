@@ -97,8 +97,8 @@ WalkFallCheck:
     lda.b !obj_facing
     sta.b !obj_direction      ; direction = facing
 
-    lda #$04
-    sta.b $3C                 ; falling animation sub-state
+    lda #$2B
+    jsl $018053               ; set jump/fall animation (same as jump entry)
 
     lda #$01
     ora.b $09

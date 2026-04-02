@@ -24,20 +24,23 @@ fi
 
 # Copy clean ROM
 echo ""
-echo "[1/5] Copying clean ROM..."
+echo "[1/6] Copying clean ROM..."
 cp rom/clean.sfc rom/gng_enhanced.sfc
 
 # Apply patches
-echo "[2/5] Applying air control patch..."
+echo "[2/6] Applying air control patch..."
 $ASAR patches/air_control.asm rom/gng_enhanced.sfc
 
-echo "[3/5] Applying throw cancel patch..."
+echo "[3/6] Applying ledge fall patch..."
+$ASAR patches/ledge_fall.asm rom/gng_enhanced.sfc
+
+echo "[4/6] Applying throw cancel patch..."
 $ASAR patches/throw_cancel.asm rom/gng_enhanced.sfc
 
-echo "[4/5] Applying title text patch..."
+echo "[5/6] Applying title text patch..."
 $ASAR patches/title_text.asm rom/gng_enhanced.sfc
 
-echo "[5/5] Applying FastROM patch..."
+echo "[6/6] Applying FastROM patch..."
 $ASAR patches/fastrom.asm rom/gng_enhanced.sfc
 
 echo ""

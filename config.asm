@@ -26,6 +26,17 @@
 !enable_friction  = 1
 
 ; ============================================================
+; Ledge Fall Configuration
+; ============================================================
+; When Arthur walks off a ledge, enter the full airborne state
+; instead of the original straight-down fall. This gives the
+; player air drift (via the air control patch) and one double
+; jump while falling from a ledge.
+
+; 1 = walk off ledge → full airborne state, 0 = original behavior
+!ledge_fall_enabled = 1
+
+; ============================================================
 ; Throw Cancel Configuration
 ; ============================================================
 ; Allow canceling the throw animation with a jump after a delay.

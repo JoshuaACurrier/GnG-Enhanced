@@ -188,7 +188,7 @@ endif
     jmp !cap_fall_speed        ; tail-call arthur_cap_fall_speed → RTS returns to caller
 
 ; Safety: ensure we haven't overflowed into important data
-warnpc $01FDB6
+warnpc $01FD60
 
 ; ============================================================
 ; END OF PATCH

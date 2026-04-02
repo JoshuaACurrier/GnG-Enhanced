@@ -40,15 +40,24 @@ incsrc "../config.asm"
 ; Object struct field offsets (direct page relative)
 ; ============================================================
 
+!obj_flags        = $09        ; bit 0 = airborne
 !obj_direction    = $11        ; 0=right, 1=left (movement sign)
 !obj_facing       = $12        ; 0=right, 1=left (sprite flip)
 !obj_speed_y_sub  = $19        ; speed_y fractional byte
 !obj_speed_y_mid  = $1A        ; speed_y integer byte
 
 ; ============================================================
+; Constants
+; ============================================================
+
+!airborne_bit     = $01        ; bit mask for airborne flag in obj_flags
+!anim_jump        = $2B        ; animation ID for jump/fall sprite
+
+; ============================================================
 ; ROM addresses
 ; ============================================================
 
+!set_animation    = $018053    ; JSL target — sets animation from A
 !cap_fall_speed   = $DD45      ; gravity + position update + speed cap
 !airborne_loop    = $CF53      ; top of the airborne frame loop
 
@@ -78,35 +87,28 @@ org $01CFD5
 org $01FD5A
 
 WalkFallCheck:
-    jsr !cap_fall_speed       ; call original $DD45 (gravity + position)
+    jsr !cap_fall_speed
 
-    ; ----------------------------------------
-    ; Check if Arthur is falling
-    ; ----------------------------------------
-    ; After $DD45, speed_y = 0 on solid ground (floor collision
-    ; clamps position and resets speed). Off a ledge, gravity
-    ; has increased speed_y with no floor to stop it.
-    ; Check both mid and fractional bytes for immediate detection.
-    lda.b !obj_speed_y_mid    ; integer part of fall speed
-    ora.b !obj_speed_y_sub    ; OR with fractional part
-    beq .on_ground            ; speed_y == 0 → still on ground
+    ; speed_y = 0 on solid ground (floor collision resets it).
+    ; Off a ledge, gravity increases speed_y with no floor to stop it.
+    lda.b !obj_speed_y_mid
+    ora.b !obj_speed_y_sub
+    beq .on_ground
 
-    ; ----------------------------------------
-    ; Falling! Enter the airborne loop.
-    ; ----------------------------------------
+    ; Falling — set up airborne state and leave the walk handler.
     lda.b !obj_facing
-    sta.b !obj_direction      ; direction = facing
+    sta.b !obj_direction
 
-    lda #$2B
-    jsl $018053               ; set jump/fall animation (same as jump entry)
+    lda #!anim_jump
+    jsl !set_animation
 
-    lda #$01
-    ora.b $09
-    sta.b $09                 ; set airborne bit
+    lda #!airborne_bit
+    ora.b !obj_flags
+    sta.b !obj_flags
 
-    pla                       ; pop JSR return address
-    pla                       ; (exits walk handler loop)
-    jmp !airborne_loop        ; → air control + double jump
+    pla                       ; pop return address from JSR at $CFD5
+    pla
+    jmp !airborne_loop
 
 .on_ground:
     rts

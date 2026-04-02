@@ -5,6 +5,7 @@ Quality-of-life patches for **Super Ghouls 'n Ghosts** (SNES).
 ## Features
 
 - **Air Control** — Mario-style horizontal movement during jumps and double jumps. Configurable acceleration, max speed, and friction.
+- **Ledge Fall** — Walking off a ledge enters the full airborne state, giving you air drift and a double jump instead of dropping like a brick.
 - **Throw Cancel** — Cancel the throw animation with a jump after a short delay, reducing commitment to attacks.
 - **FastROM** — Converts the ROM from SlowROM to FastROM, boosting CPU clock from 2.68 MHz to 3.58 MHz (~33% faster). Significantly reduces slowdown in busy scenes.
 - **Title Screen Text** — Displays "ENHANCED" below the logo on the title screen.
@@ -54,6 +55,12 @@ All parameters are in `config.asm`. Edit values, re-run `build.bat`, and test.
 |-----------|---------|-------------|
 | `throw_cancel_enabled` | `1` | Enable/disable throw cancel |
 | `throw_cancel_cooldown` | `$08` | Cooldown threshold — lower = more delay before cancel allowed |
+
+### Ledge Fall
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `ledge_fall_enabled` | `1` | Enable airborne state when walking off ledges |
 
 ### Feature Toggles
 
